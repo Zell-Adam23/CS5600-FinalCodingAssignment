@@ -1,33 +1,10 @@
-#server.py
-
 import socket
-import threading
 
 HOST = "0.0.0.0"
 PORT = 5000
 
 output_file = "recieved.txt"
 updated_file = "updated.txt"
-
-def recieve_message(connection):
-    while True:
-        try:
-            data = connection.recv(1024)
-            if not data:
-                print("[SERVER] Client disconnected.")
-                break
-            print(f"[CLIENT]: {data.decode().strip()}")
-        except:
-            break
-
-def send_message(connection):
-    while True:
-        message = input("You (Server): ")
-        try:
-            connection.sendall(message.encode() + b"\n")
-        except:
-            print("[SERVER] Send failed - client may have disconnected")
-            break
 
 def recv_all(connection, size):
     data = b""
@@ -45,16 +22,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as x:
 
     connection, address = x.accept()
 
-    print(f"[SERVER] Connected by {address}")
-
-    connection.sendall(b"Hello from Server-AdamZ\n")
-
-    threading.Thread(target=recieve_message, args=(connection, ), daemon=True).start()
-    threading.Thread(target=send_message, args=(connection, ), daemon=True).start()
-
-    threading.Event().wait()
-
-""" 
     with connection:
         print(f"[SERVER] Connected by {address}")
 
@@ -72,7 +39,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as x:
                 connection.sendall(b"Bye from Server-AdamZ\n")
                 break
 
-            # file sharing
             if message.startswith("file"):
                 filesize = int(connection.recv(1024).decode())
                 connection.sendall(b"sizeok")
@@ -99,4 +65,3 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as x:
                 print("[SERVER] updated file sent back")
 
             connection.sendall(f"Server recieved: {message}".encode())
- """
