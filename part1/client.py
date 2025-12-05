@@ -1,8 +1,10 @@
 import socket
 
+#ports can be adjusted later, this is just for testing purposes
 HOST = "127.0.0.1"
 PORT = 5000
 
+#change to send a different file
 default_send_file = "sample.txt"
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as x:

@@ -1,5 +1,6 @@
 import socket
 
+#ports can be adjusted later, this is just for testing purposes
 HOST = "0.0.0.0"
 PORT = 5000
 
